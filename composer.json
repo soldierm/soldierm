@@ -1,0 +1,28 @@
+{
+  "name": "soldierm/soldierm",
+  "description": "soldierm framework",
+  "minimum-stability": "dev",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "zhouyang",
+      "email": "zy952014475@gmail.com"
+    }
+  ],
+  "require": {
+    "php": "^7.1",
+    "symfony/http-foundation": "^4.3",
+    "hassankhan/config": "^2.0",
+    "nikic/fast-route": "^1.0",
+    "pimple/pimple": "^3.0",
+    "filp/whoops": "^2.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "./app"
+    },
+    "files": [
+      "./app/Helpers/functions.php"
+    ]
+  }
+}
