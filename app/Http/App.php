@@ -2,7 +2,9 @@
 
 namespace App\Http;
 
-use App\Base\BaseApp;
+use App\Base\App as BaseApp;
+use App\Http\Exception\MethodNotAllowedException;
+use App\Http\Exception\NofFoundException;
 use FastRoute\Dispatcher;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -53,11 +55,8 @@ class App extends BaseApp
     public function run()
     {
         $parsedUri = $this->parseUri();
-        $content = call_user_func_array($parsedUri[0], $parsedUri[1]);
-        $this->response->setContent($content)
-            ->setStatusCode(Response::HTTP_OK)
-            ->send();
-        exit;
+        $content = http_format(Response::HTTP_OK, 'success', call_user_func_array($parsedUri[0], $parsedUri[1]));
+        $this->sendResponse($content);
     }
 
     /**
@@ -78,22 +77,40 @@ class App extends BaseApp
      * 解析路由
      *
      * @return array
+     * @throws MethodNotAllowedException
+     * @throws NofFoundException
      */
     protected function parseUri()
     {
         $routeInfo = $this->routeDispatcher->dispatch($this->request->getMethod(), $this->request->getRequestUri());
         switch ($routeInfo[0]) {
-            case Dispatcher::NOT_FOUND:
-                break;
             case Dispatcher::FOUND:
                 $handler = $routeInfo[1];
                 $vars = $routeInfo[2];
                 break;
             case Dispatcher::METHOD_NOT_ALLOWED:
+                throw new MethodNotAllowedException($this->request->getMethod());
                 break;
+            case Dispatcher::NOT_FOUND:
             default:
+                throw new NofFoundException();
                 break;
         }
         return [$handler, $vars];
+    }
+
+    /**
+     * 发送请求
+     *
+     * @param array $content
+     */
+    protected function sendResponse(array $content)
+    {
+        /* 暂时只提供json接口 */
+        $this->response->headers->set('Content-type', 'application/json;charset=UTF-8');
+        $this->response->setContent(json_encode($content))
+            ->setStatusCode(Response::HTTP_OK)
+            ->send();
+        exit;
     }
 }

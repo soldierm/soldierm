@@ -5,7 +5,7 @@ namespace App\Base;
 use App\Container;
 use Noodlehaus\Config;
 
-abstract class BaseApp
+abstract class App
 {
     /**
      * 容器
@@ -24,7 +24,7 @@ abstract class BaseApp
     /**
      * 单例
      *
-     * @var BaseApp
+     * @var App
      */
     protected static $app;
 

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controller;
 
-use App\Base\BaseController;
+use App\Base\Controller;
 
-class IndexController extends BaseController
+class IndexController extends Controller
 {
     /**
      * @return string

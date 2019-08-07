@@ -6,7 +6,7 @@ if (!function_exists('app')) {
     /**
      * 获取应用实例
      *
-     * @return \App\Base\BaseApp
+     * @return \App\Base\App
      */
     function app()
     {
@@ -23,5 +23,20 @@ if (!function_exists('request')) {
     function request()
     {
         return Container::instance()->request;
+    }
+}
+
+if (!function_exists('http_format')) {
+    /**
+     * 格式化抛出
+     *
+     * @param int $code
+     * @param string $msg
+     * @param $data
+     * @return array
+     */
+    function http_format(int $code, string $msg, $data)
+    {
+        return compact('code', 'msg', 'data');
     }
 }

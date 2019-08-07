@@ -5,7 +5,7 @@ namespace App;
 use Pimple\Container as PimpleContainer;
 
 /**
- * @property \App\Base\BaseApp $app
+ * @property \App\Base\App $app
  * @property \Noodlehaus\Config $config
  * @property \FastRoute\Dispatcher $routeDispatcher 只在fastcgi模式下有效
  * @property \Symfony\Component\HttpFoundation\Request $request 只在fastcgi模式下有效
