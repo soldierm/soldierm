@@ -33,9 +33,9 @@ abstract class App
      * @param array $config
      * @param Container|null $container
      */
-    public function __construct($config = [], Container $container = null)
+    public function __construct($config = [])
     {
-        $this->container = $container ?: new Container();
+        $this->container = Container::instance();
         $this->config = new Config($config);
         $this->init();
     }

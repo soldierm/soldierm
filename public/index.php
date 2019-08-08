@@ -11,12 +11,12 @@ use App\Http\App;
     define('APP_PATH', ROOT_PATH . DS . 'app');
     define('CONFIG_PATH', ROOT_PATH . DS . 'config');
 
-    $container = new Container([
+    $container = Container::instance([
         'version' => '0.0.1',
         'author' => 'zhouyang',
         'debug' => false,
     ]);
 
-    $app = new App(CONFIG_PATH, $container);
+    $app = new App(CONFIG_PATH);
     $app->run();
 })();

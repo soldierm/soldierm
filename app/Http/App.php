@@ -2,12 +2,16 @@
 
 namespace App\Http;
 
+use Exception as PHPException;
 use App\Base\App as BaseApp;
+use App\Base\Exception;
 use App\Http\Exception\MethodNotAllowedException;
 use App\Http\Exception\NofFoundException;
+use App\Http\Exception\UnknownException;
 use FastRoute\Dispatcher;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use App\Http\Exception\JsonResponseHandle;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run;
 use function FastRoute\simpleDispatcher;
@@ -44,9 +48,9 @@ class App extends BaseApp
 
         $this->registerErrorHandler();
 
-        $this->container['routeDispatcher'] = $this->routeDispatcher = simpleDispatcher($this->getConfig()->get('route'));
         $this->container['request'] = $this->request = Request::createFromGlobals();
         $this->container['response'] = $this->response = new Response();
+        $this->container['routeDispatcher'] = $this->routeDispatcher = simpleDispatcher($this->getConfig()->get('route'));
     }
 
     /**
@@ -54,8 +58,14 @@ class App extends BaseApp
      */
     public function run()
     {
-        $parsedUri = $this->parseUri();
-        $content = http_format(Response::HTTP_OK, 'success', call_user_func_array($parsedUri[0], $parsedUri[1]));
+        try {
+            $parsedUri = $this->parseUri();
+            $content = http_format(Response::HTTP_OK, 'ok', call_user_func_array($parsedUri[0], $parsedUri[1]));
+        } catch (Exception $exception) {
+            $content = $exception;
+        } catch (PHPException $exception) {
+            $content = new UnknownException($exception->getMessage());
+        }
         $this->sendResponse($content);
     }
 
@@ -66,11 +76,13 @@ class App extends BaseApp
      */
     protected function registerErrorHandler()
     {
+        $whoops = new Run();
         if ($this->container['debug']) {
-            $whoops = new Run();
             $whoops->prependHandler(new PrettyPageHandler());
-            $whoops->register();
+        } else {
+            $whoops->prependHandler(new JsonResponseHandle());
         }
+        $whoops->register();
     }
 
     /**
@@ -104,12 +116,11 @@ class App extends BaseApp
      *
      * @param array $content
      */
-    protected function sendResponse(array $content)
+    protected function sendResponse($content)
     {
         /* 暂时只提供json接口 */
         $this->response->headers->set('Content-type', 'application/json;charset=UTF-8');
         $this->response->setContent(json_encode($content))
-            ->setStatusCode(Response::HTTP_OK)
             ->send();
         exit;
     }

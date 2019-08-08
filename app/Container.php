@@ -11,6 +11,8 @@ use Pimple\Container as PimpleContainer;
  * @property \Symfony\Component\HttpFoundation\Request $request 只在fastcgi模式下有效
  * @property \Symfony\Component\HttpFoundation\Response $response 只在fastcgi模式下有效
  * @property bool $debug
+ * @property string $version
+ * @property string $author
  */
 class Container extends PimpleContainer
 {
@@ -34,5 +36,21 @@ class Container extends PimpleContainer
         }
 
         return self::$instance;
+    }
+
+    /**
+     * @see Container::offsetGet()
+     */
+    public function __get($name)
+    {
+        return $this->offsetGet($name);
+    }
+
+    /**
+     * @see Container::offsetSet()
+     */
+    public function __set($name, $value)
+    {
+        $this->offsetSet($name, $value);
     }
 }
