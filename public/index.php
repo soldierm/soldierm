@@ -11,12 +11,13 @@ use App\Http\App;
     define('APP_PATH', ROOT_PATH . DS . 'app');
     define('CONFIG_PATH', ROOT_PATH . DS . 'config');
 
-    $container = Container::instance([
+    Container::instance([
         'version' => '0.0.1',
         'author' => 'zhouyang',
         'debug' => false,
     ]);
 
     $app = new App(CONFIG_PATH);
-    $app->run();
+    $app->addMiddleware('auth')
+        ->run();
 })();

@@ -2,6 +2,8 @@
 
 namespace App\Http;
 
+use App\Base\Controller;
+use App\Http\Middleware\Middleware;
 use Exception as PHPException;
 use App\Base\App as BaseApp;
 use App\Base\Exception;
@@ -40,6 +42,27 @@ class App extends BaseApp
     protected $routeDispatcher;
 
     /**
+     * 全局请求处理中间件
+     *
+     * @var array
+     */
+    protected $middleware = [];
+
+    /**
+     * 控制器
+     *
+     * @var Controller|callable
+     */
+    protected $controller;
+
+    /**
+     * 控制器参数
+     *
+     * @var array
+     */
+    protected $controllerArgs;
+
+    /**
      * {@inheritDoc}
      */
     public function init()
@@ -59,8 +82,8 @@ class App extends BaseApp
     public function run()
     {
         try {
-            $parsedUri = $this->parseUri();
-            $content = http_format(Response::HTTP_OK, 'ok', call_user_func_array($parsedUri[0], $parsedUri[1]));
+            $this->parseUri();
+            $content = http_format(Response::HTTP_OK, 'ok', call_user_func_array($this->controller, $this->controllerArgs));
         } catch (Exception $exception) {
             $content = $exception;
         } catch (PHPException $exception) {
@@ -88,7 +111,6 @@ class App extends BaseApp
     /**
      * 解析路由
      *
-     * @return array
      * @throws MethodNotAllowedException
      * @throws NofFoundException
      */
@@ -97,8 +119,8 @@ class App extends BaseApp
         $routeInfo = $this->routeDispatcher->dispatch($this->request->getMethod(), $this->request->getRequestUri());
         switch ($routeInfo[0]) {
             case Dispatcher::FOUND:
-                $handler = $routeInfo[1];
-                $vars = $routeInfo[2];
+                $this->controller = $routeInfo[1];
+                $this->controllerArgs = $routeInfo[2];
                 break;
             case Dispatcher::METHOD_NOT_ALLOWED:
                 throw new MethodNotAllowedException($this->request->getMethod());
@@ -108,7 +130,6 @@ class App extends BaseApp
                 throw new NofFoundException();
                 break;
         }
-        return [$handler, $vars];
     }
 
     /**
@@ -123,5 +144,57 @@ class App extends BaseApp
         $this->response->setContent(json_encode($content))
             ->send();
         exit;
+    }
+
+    /**
+     * 添加全局中间件
+     *
+     * @param $middleware
+     * @return $this
+     */
+    public function addMiddleware($middleware)
+    {
+        $this->middleware[] = $middleware;
+
+        return $this;
+    }
+
+    protected function callMiddleware($destination)
+    {
+        $firstStack = function ($passable) use ($destination) {
+            return $destination($passable);
+        };
+
+        /* 倒置中间件数组 */
+        $pipes = array_reverse($this->middleware);
+
+        $slice = function ($stack, $pipe) {
+            return function ($request) use ($stack, $pipe) {
+                /** @var Middleware $pipe */
+                return call_user_func_array([$pipe, 'handle'], [$request, $stack]);
+            };
+        };
+
+        $run = array_reduce($pipes, $slice, $firstStack);
+
+        return call_user_func($run, $this->request);
+    }
+
+    /**
+     * 获取请求中间件实例
+     *
+     * @return Middleware[]
+     */
+    protected function mergeMiddleware()
+    {
+        $middleware = array_merge($this->middleware, $this->controller->middleware());
+        $middleware = array_filter(array_map(function ($alias) {
+            if (isset($this->config->get('middleware')[$alias])) {
+                return new($this->config->get('middleware')[$alias]);
+            }
+            return null;
+        }, $middleware));
+
+        return $middleware;
     }
 }

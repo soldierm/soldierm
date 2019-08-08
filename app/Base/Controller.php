@@ -29,6 +29,13 @@ abstract class Controller
     protected $request;
 
     /**
+     * 控制器请求中间件
+     *
+     * @var array
+     */
+    protected $middleware = [];
+
+    /**
      * Controller constructor.
      */
     public function __construct()
@@ -36,5 +43,28 @@ abstract class Controller
         $this->app = app();
         $this->container = $this->app->getContainer();
         $this->request = $this->container->request;
+    }
+
+    /**
+     * 添加控制器中间件
+     *
+     * @param $middleware
+     * @return $this
+     */
+    public function addMiddleware($middleware)
+    {
+        $this->middleware[] = $middleware;
+
+        return $this;
+    }
+
+    /**
+     * 获取控制器中间件s
+     *
+     * @return array
+     */
+    public function middleware()
+    {
+        return $this->middleware;
     }
 }
