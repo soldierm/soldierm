@@ -7,10 +7,10 @@ use Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class TestAfterMiddleware implements Middleware
+class JsonEchoMiddleware implements Middleware
 {
     /**
-     * 验证中间件
+     * 相应Json化
      *
      * @param Request $request
      * @param Closure $next
@@ -19,8 +19,11 @@ class TestAfterMiddleware implements Middleware
      */
     public function handle(Request $request, Closure $next): Response
     {
+        /** @var Response $response */
         $response = $next($request);
-        echo '我是后置请求中间件';
+
+        $response->headers->set('Content-type', 'application/json;charset=UTF-8');
+        $response->setContent(json_encode(http_format($response->getStatusCode(), 'ok', app()->getContainer()->originContent)));
 
         return $response;
     }

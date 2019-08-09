@@ -2,18 +2,18 @@
 
 namespace App\Http;
 
-use App\Base\Controller;
-use App\Http\Middleware\Middleware;
-use Exception as PHPException;
 use App\Base\App as BaseApp;
+use App\Base\Controller;
 use App\Base\Exception;
+use App\Http\Exception\JsonResponseHandle;
 use App\Http\Exception\MethodNotAllowedException;
 use App\Http\Exception\NofFoundException;
 use App\Http\Exception\UnknownException;
+use App\Http\Middleware\Middleware;
+use Exception as PHPException;
 use FastRoute\Dispatcher;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use App\Http\Exception\JsonResponseHandle;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run;
 use function FastRoute\simpleDispatcher;
@@ -72,7 +72,6 @@ class App extends BaseApp
         $this->registerErrorHandler();
 
         $this->container['request'] = $this->request = Request::createFromGlobals();
-        $this->container['response'] = $this->response = new Response();
         $this->container['routeDispatcher'] = $this->routeDispatcher = simpleDispatcher($this->getConfig()->get('route'));
     }
 
@@ -83,13 +82,14 @@ class App extends BaseApp
     {
         try {
             $this->parseUri();
-            $content = http_format(Response::HTTP_OK, 'ok', call_user_func_array($this->controller, $this->controllerArgs));
+            $this->callMiddleware();
         } catch (Exception $exception) {
-            $content = $exception;
+            $this->response->setContent($exception);
         } catch (PHPException $exception) {
-            $content = new UnknownException($exception->getMessage());
+            $this->response->setContent(new UnknownException($exception->getMessage()));
         }
-        $this->sendResponse($content);
+        $this->response->send();
+        exit;
     }
 
     /**
@@ -133,20 +133,6 @@ class App extends BaseApp
     }
 
     /**
-     * 发送请求
-     *
-     * @param array $content
-     */
-    protected function sendResponse($content)
-    {
-        /* 暂时只提供json接口 */
-        $this->response->headers->set('Content-type', 'application/json;charset=UTF-8');
-        $this->response->setContent(json_encode($content))
-            ->send();
-        exit;
-    }
-
-    /**
      * 添加全局中间件
      *
      * @param $middleware
@@ -159,14 +145,23 @@ class App extends BaseApp
         return $this;
     }
 
-    protected function callMiddleware($destination)
+    /**
+     * 处理请求中间件
+     *
+     * @return void
+     */
+    protected function callMiddleware()
     {
-        $firstStack = function ($passable) use ($destination) {
-            return $destination($passable);
+        $firstStack = function ($request) {
+            return (function ($request) {
+                $this->container['response'] = $this->response = (new Response())->prepare($request);
+                $this->container['originContent'] = call_user_func_array($this->controller, $this->controllerArgs);
+                return $this->response;
+            })($request);
         };
 
-        /* 倒置中间件数组 */
-        $pipes = array_reverse($this->middleware);
+        /* 构造中间件 */
+        $middleware = $this->registerMiddleware();
 
         $slice = function ($stack, $pipe) {
             return function ($request) use ($stack, $pipe) {
@@ -175,9 +170,9 @@ class App extends BaseApp
             };
         };
 
-        $run = array_reduce($pipes, $slice, $firstStack);
+        $run = array_reduce($middleware, $slice, $firstStack);
 
-        return call_user_func($run, $this->request);
+        call_user_func($run, $this->request);
     }
 
     /**
@@ -185,15 +180,15 @@ class App extends BaseApp
      *
      * @return Middleware[]
      */
-    protected function mergeMiddleware()
+    protected function registerMiddleware()
     {
-        $middleware = array_merge($this->middleware, $this->controller->middleware());
         $middleware = array_filter(array_map(function ($alias) {
             if (isset($this->config->get('middleware')[$alias])) {
-                return new($this->config->get('middleware')[$alias]);
+                $middleware = $this->config->get('middleware')[$alias];
+                return new $middleware();
             }
             return null;
-        }, $middleware));
+        }, array_reverse(array_merge($this->controller->middleware(), $this->middleware))));
 
         return $middleware;
     }
