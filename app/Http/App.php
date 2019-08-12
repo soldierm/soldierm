@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use Throwable;
 use App\Base\App as BaseApp;
 use App\Base\Controller;
 use App\Base\Exception;
@@ -16,7 +17,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run;
-use function FastRoute\simpleDispatcher;
 
 class App extends BaseApp
 {
@@ -71,8 +71,8 @@ class App extends BaseApp
 
         $this->registerErrorHandler();
 
-        $this->container['request'] = $this->request = Request::createFromGlobals();
-        $this->container['routeDispatcher'] = $this->routeDispatcher = simpleDispatcher($this->getConfig()->get('route'));
+        config('http_service')->call($this);
+        config('http_bootstrap')->call($this);
     }
 
     /**
@@ -80,14 +80,8 @@ class App extends BaseApp
      */
     public function run()
     {
-        try {
-            $this->parseUri();
-            $this->callMiddleware();
-        } catch (Exception $exception) {
-            $this->response->setContent($exception);
-        } catch (PHPException $exception) {
-            $this->response->setContent(new UnknownException($exception->getMessage()));
-        }
+        $this->parseUri();
+        $this->callMiddleware();
         $this->response->send();
         exit;
     }
@@ -99,8 +93,16 @@ class App extends BaseApp
      */
     protected function registerErrorHandler()
     {
+        set_exception_handler(function (Throwable $exception) {
+            if ($exception instanceof Exception) {
+                $this->response->setContent($exception);
+            } else {
+                $this->response->setContent(new UnknownException($exception->getMessage()));
+            }
+        });
+
         $whoops = new Run();
-        if ($this->container['debug']) {
+        if ($this->isDevMod()) {
             $whoops->prependHandler(new PrettyPageHandler());
         } else {
             $whoops->prependHandler(new JsonResponseHandle());
@@ -189,5 +191,15 @@ class App extends BaseApp
         }, array_reverse(array_merge($this->controller->middleware(), $this->middleware))));
 
         return $middleware;
+    }
+
+    /**
+     * 是否是开发模式
+     *
+     * @return bool
+     */
+    protected function isDevMod()
+    {
+        return $this->container['debug'] === true;
     }
 }

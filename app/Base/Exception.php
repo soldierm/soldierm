@@ -28,6 +28,8 @@ abstract class Exception extends PHPException implements JsonSerializable
      */
     public function jsonSerialize()
     {
+        container()->response->headers->set('Content-type', 'application/json;charset=UTF-8');
+
         return http_format($this->getCode(), $this->getMessage(), $this->getInfo());
     }
 

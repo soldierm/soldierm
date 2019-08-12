@@ -18,7 +18,5 @@ use App\Http\App;
     ]);
 
     $app = new App(CONFIG_PATH);
-    $app->addMiddleware('auth')
-        ->addMiddleware('echo')
-        ->run();
+    $app->run();
 })();
