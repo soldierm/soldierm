@@ -9,7 +9,7 @@ class IndexController extends Controller
     /**
      * 首页控制器
      *
-     * @return array
+     * @return mixed
      */
     public function __invoke()
     {
