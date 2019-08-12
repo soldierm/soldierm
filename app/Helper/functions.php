@@ -2,6 +2,18 @@
 
 use App\Container;
 
+if (!function_exists('container')) {
+    /**
+     * 获取容器
+     *
+     * @return Container
+     */
+    function container()
+    {
+        return Container::instance();
+    }
+}
+
 if (!function_exists('app')) {
     /**
      * 获取应用实例
@@ -10,19 +22,7 @@ if (!function_exists('app')) {
      */
     function app()
     {
-        return Container::instance()->app;
-    }
-}
-
-if (!function_exists('request')) {
-    /**
-     * 获取请求
-     *
-     * @return \Symfony\Component\HttpFoundation\Request
-     */
-    function request()
-    {
-        return Container::instance()->request;
+        return container()->app;
     }
 }
 
@@ -38,5 +38,19 @@ if (!function_exists('http_format')) {
     function http_format(int $code, string $msg, $data)
     {
         return compact('code', 'msg', 'data');
+    }
+}
+
+if (!function_exists('config')) {
+    /**
+     * 获取配置
+     *
+     * @param $key
+     * @param null $default
+     * @return mixed|null
+     */
+    function config($key, $default = null)
+    {
+        return container()->config->get($key, $default);
     }
 }
