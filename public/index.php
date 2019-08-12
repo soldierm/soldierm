@@ -14,7 +14,7 @@ use App\Http\App;
     Container::instance([
         'version' => '0.0.1',
         'author' => 'zhouyang',
-        'debug' => false,
+        'debug' => true,
     ]);
 
     $app = new App(CONFIG_PATH);

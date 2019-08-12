@@ -40,4 +40,14 @@ abstract class Exception extends PHPException implements JsonSerializable
     {
         return $this->info;
     }
+
+    /**
+     * 异常抛出
+     *
+     * @return false|string
+     */
+    public function __toString()
+    {
+        return json_encode($this->jsonSerialize());
+    }
 }

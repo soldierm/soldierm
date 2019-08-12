@@ -170,9 +170,7 @@ class App extends BaseApp
             };
         };
 
-        $run = array_reduce($middleware, $slice, $firstStack);
-
-        call_user_func($run, $this->request);
+        call_user_func(array_reduce($middleware, $slice, $firstStack), $this->request);
     }
 
     /**
