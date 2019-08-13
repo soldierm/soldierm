@@ -6,6 +6,8 @@ use Doctrine\ORM\Tools\Setup;
 use Predis\Client;
 use Symfony\Component\HttpFoundation\Request;
 use function FastRoute\simpleDispatcher;
+use Symfony\Component\Console\Application;
+use App\Console\Command\TestCommand;
 
 return [
     'http_service' => function () {
@@ -16,5 +18,11 @@ return [
     'http_bootstrap' => function () {
         $this->routeDispatcher = simpleDispatcher($this->getConfig()->get('route'));
         $this->addMiddleware('echo');
+    },
+    'console_service' => function () {
+    },
+    'console_bootstrap' => function () {
+        $this->symfonyApplication = new Application('Soldierm', container()->version);
+        $this->addCommand(new TestCommand());
     }
 ];

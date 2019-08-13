@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b7fbe60c9da507d5a6e561516853d26a",
+    "content-hash": "3c5a43144b13b5670323e2a1f2f5c24e",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1382,16 +1382,16 @@
         },
         {
             "name": "symfony/console",
-            "version": "dev-master",
+            "version": "4.4.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "3fe827a93806372e2b675ba1376c08105569b06f"
+                "reference": "3fa2db4d68f3a2812709ef7fd10eb535aeb99c65"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/3fe827a93806372e2b675ba1376c08105569b06f",
-                "reference": "3fe827a93806372e2b675ba1376c08105569b06f",
+                "url": "https://api.github.com/repos/symfony/console/zipball/3fa2db4d68f3a2812709ef7fd10eb535aeb99c65",
+                "reference": "3fa2db4d68f3a2812709ef7fd10eb535aeb99c65",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -1401,28 +1401,28 @@
                 ]
             },
             "require": {
-                "php": "^7.2.9",
+                "php": "^7.1.3",
                 "symfony/polyfill-mbstring": "~1.0",
                 "symfony/polyfill-php73": "^1.8",
                 "symfony/service-contracts": "^1.1"
             },
             "conflict": {
-                "symfony/dependency-injection": "<4.4",
-                "symfony/event-dispatcher": "<4.4",
+                "symfony/dependency-injection": "<3.4",
+                "symfony/event-dispatcher": "<4.3|>=5",
                 "symfony/lock": "<4.4",
-                "symfony/process": "<4.4"
+                "symfony/process": "<3.3"
             },
             "provide": {
                 "psr/log-implementation": "1.0"
             },
             "require-dev": {
                 "psr/log": "~1.0",
-                "symfony/config": "^4.4|^5.0",
-                "symfony/dependency-injection": "^4.4|^5.0",
-                "symfony/event-dispatcher": "^4.4|^5.0",
+                "symfony/config": "^3.4|^4.0|^5.0",
+                "symfony/dependency-injection": "^3.4|^4.0|^5.0",
+                "symfony/event-dispatcher": "^4.3",
                 "symfony/lock": "^4.4|^5.0",
-                "symfony/process": "^4.4|^5.0",
-                "symfony/var-dumper": "^4.4|^5.0"
+                "symfony/process": "^3.4|^4.0|^5.0",
+                "symfony/var-dumper": "^4.3|^5.0"
             },
             "suggest": {
                 "psr/log": "For using the console logger",
@@ -1433,7 +1433,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "5.0-dev"
+                    "dev-master": "4.4-dev"
                 }
             },
             "autoload": {
@@ -1460,7 +1460,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
-            "time": "2019-08-08T15:18:37+00:00"
+            "time": "2019-08-13T06:48:26+00:00"
         },
         {
             "name": "symfony/http-foundation",
@@ -1468,12 +1468,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-foundation.git",
-                "reference": "94c220dea71281ec8ef3eecdcddccf4a295549db"
+                "reference": "bbab3f31b23c3799555035f7353588466cad76d9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/94c220dea71281ec8ef3eecdcddccf4a295549db",
-                "reference": "94c220dea71281ec8ef3eecdcddccf4a295549db",
+                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/bbab3f31b23c3799555035f7353588466cad76d9",
+                "reference": "bbab3f31b23c3799555035f7353588466cad76d9",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -1521,7 +1521,7 @@
             ],
             "description": "Symfony HttpFoundation Component",
             "homepage": "https://symfony.com",
-            "time": "2019-08-11T09:51:46+00:00"
+            "time": "2019-08-13T06:48:26+00:00"
         },
         {
             "name": "symfony/mime",
