@@ -5,11 +5,12 @@ namespace App;
 use Pimple\Container as PimpleContainer;
 
 /**
- * @property \App\Base\App $app
- * @property \Noodlehaus\Config $config
+ * @property \App\Base\App $app 应用
+ * @property \Noodlehaus\Config $config 配置
  * @property \FastRoute\Dispatcher $routeDispatcher 只在fastcgi模式下有效
  * @property \Symfony\Component\HttpFoundation\Request $request 只在fastcgi模式下有效
  * @property \Symfony\Component\HttpFoundation\Response $response 只在fastcgi模式下有效
+ * @property \Doctrine\Common\Cache\Cache $cache 缓存
  * @property bool $debug
  * @property string $version
  * @property string $author

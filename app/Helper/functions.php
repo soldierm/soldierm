@@ -54,3 +54,34 @@ if (!function_exists('config')) {
         return container()->config->get($key, $default);
     }
 }
+
+if (!function_exists('cache')) {
+    /**
+     * 获取缓存
+     *
+     * @return \Doctrine\Common\Cache\Cache
+     */
+    function cache()
+    {
+        return container()->cache;
+    }
+}
+
+if (!function_exists('cache_remember')) {
+    /**
+     * 缓存GetOrSet
+     *
+     * @param $key
+     * @param Closure $call
+     * @param int $lifetime
+     * @return mixed
+     */
+    function cache_remember($key, Closure $call, $lifetime = 0)
+    {
+        if (!cache()->contains($key)) {
+            cache()->save($key, $call(), $lifetime);
+        }
+
+        return cache()->fetch($key);
+    }
+}
