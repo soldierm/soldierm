@@ -12,7 +12,9 @@ class JsonResponseHandle extends BaseJsonResponseHandler
      */
     public function handle()
     {
-        $response = http_format(UnknownException::CODE, $this->getInspector()->getException()->getMessage(), '');
+        $exception = $this->getInspector()->getException();
+
+        $response = http_format($exception->getCode(), $exception->getMessage(), '');
 
         echo json_encode($response, defined('JSON_PARTIAL_OUTPUT_ON_ERROR') ? JSON_PARTIAL_OUTPUT_ON_ERROR : 0);
 

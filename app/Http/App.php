@@ -11,7 +11,6 @@ use App\Http\Exception\MethodNotAllowedException;
 use App\Http\Exception\NofFoundException;
 use App\Http\Exception\UnknownException;
 use App\Http\Middleware\Middleware;
-use Exception as PHPException;
 use FastRoute\Dispatcher;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Http\Exception\AuthException;
 use Closure;
 use Exception;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,8 +20,8 @@ class AuthMiddleware implements Middleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (app()->getContainer()->author !== 'zhouyang') {
-            throw new Exception("你是谁啊？");
+        if (container()->author !== 'zhouyang') {
+            throw new AuthException("NTMLGB");
         }
 
         return $next($request);
