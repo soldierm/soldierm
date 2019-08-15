@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use function FastRoute\simpleDispatcher;
 use Symfony\Component\Console\Application;
 use App\Console\Command\TestCommand;
+use App\Console\Command\ForkCommand;
 
 return [
     'http_service' => function () {
@@ -23,6 +24,7 @@ return [
     },
     'console_bootstrap' => function () {
         $this->symfonyApplication = new Application('Soldierm', container()->version);
-        $this->addCommand(new TestCommand());
+        $this->addCommand(new TestCommand())
+            ->addCommand(new ForkCommand());
     }
 ];
