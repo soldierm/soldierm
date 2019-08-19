@@ -37,6 +37,7 @@ class TestCommand extends Command
         $tcpServer->on('close', function ($server, $fd) {
             $this->close($server, $fd);
         });
+        $tcpServer->start();
     }
 
     private function connect(Server $server, $fd)
