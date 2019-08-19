@@ -28,7 +28,9 @@ class TestCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $tcpServer = $this->getTcpServer();
-        $tcpServer->on('connect', [$this, 'onConnect']);
+        $tcpServer->on('connect', function ($server, $fd) {
+            $this->onConnect($server, $fd);
+        });
         $tcpServer->on('receive', [$this, 'onReceive']);
         $tcpServer->on('close', [$this, 'onClose']);
     }
