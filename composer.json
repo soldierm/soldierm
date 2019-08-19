@@ -19,7 +19,8 @@
     "ext-json": "*",
     "doctrine/orm": "^2.0",
     "predis/predis": "~1.0",
-    "symfony/console": "^4.0"
+    "symfony/console": "^4.0",
+    "slince/process": "dev-master"
   },
   "autoload": {
     "psr-4": {
@@ -28,5 +29,8 @@
     "files": [
       "./app/Helper/functions.php"
     ]
+  },
+  "require-dev": {
+    "eaglewu/swoole-ide-helper": "dev-master"
   }
 }
