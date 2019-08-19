@@ -27,7 +27,9 @@ class TestCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $tcpServer = $this->getTcpServer();
+        $tcpServer = $this->getTcpServer([
+            'host' => '119.23.200.233'
+        ]);
         $tcpServer->on('connect', function ($server, $fd) {
             $this->connect($server, $fd);
         });
