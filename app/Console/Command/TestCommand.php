@@ -29,25 +29,29 @@ class TestCommand extends Command
     {
         $tcpServer = $this->getTcpServer();
         $tcpServer->on('connect', function ($server, $fd) {
-            $this->onConnect($server, $fd);
+            $this->connect($server, $fd);
         });
-        $tcpServer->on('receive', [$this, 'onReceive']);
-        $tcpServer->on('close', [$this, 'onClose']);
+        $tcpServer->on('receive', function ($server, $fd, $from, $data) {
+            $this->receive($server, $fd, $from, $data);
+        });
+        $tcpServer->on('close', function ($server, $fd) {
+            $this->close($server, $fd);
+        });
     }
 
-    private function onConnect(Server $server, $fd)
+    private function connect(Server $server, $fd)
     {
         echo get_class($server), PHP_EOL;
         echo 'fd:', $fd, PHP_EOL;
     }
 
-    private function onReceive(Server $server, $fd, $from, $data)
+    private function receive(Server $server, $fd, $from, $data)
     {
         echo 'from:', $from, PHP_EOL;
         $server->send($fd, 'Receive data :' . $data);
     }
 
-    private function onClose(Server $server, $fd)
+    private function close(Server $server, $fd)
     {
         echo 'Goodbye fd:', $fd, PHP_EOL;
     }
