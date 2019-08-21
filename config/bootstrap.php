@@ -7,8 +7,7 @@ use Predis\Client;
 use Symfony\Component\HttpFoundation\Request;
 use function FastRoute\simpleDispatcher;
 use Symfony\Component\Console\Application;
-use App\Console\Command\TestCommand;
-use App\Console\Command\ForkCommand;
+use App\Console\Command\EasySwoole\StartCommand;
 
 return [
     'http_service' => function () {
@@ -24,7 +23,6 @@ return [
     },
     'console_bootstrap' => function () {
         $this->symfonyApplication = new Application('Soldierm', container()->version);
-        $this->addCommand(new TestCommand())
-            ->addCommand(new ForkCommand());
+        $this->addCommand(new StartCommand());
     }
 ];
