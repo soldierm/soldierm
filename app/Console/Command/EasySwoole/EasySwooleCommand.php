@@ -4,7 +4,6 @@ namespace App\Console\Command\EasySwoole;
 
 use App\Base\Command;
 use EasySwoole\EasySwoole\Command\CommandRunner;
-use Phar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -39,9 +38,9 @@ abstract class EasySwooleCommand extends Command
      */
     protected function define()
     {
-        defined('IN_PHAR') or define('IN_PHAR', (bool)Phar::running(false));
-        defined('RUNNING_ROOT') or define('RUNNING_ROOT', realpath(getcwd()));
-        defined('EASYSWOOLE_ROOT') or define('EASYSWOOLE_ROOT', ROOT_PATH . '/vendor/bin');
+        define('IN_PHAR', false);
+        define('RUNNING_ROOT', realpath(getcwd()));
+        define('EASYSWOOLE_ROOT', CONFIG_PATH . '/easyswoole');
     }
 
     /**
