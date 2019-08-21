@@ -41,7 +41,7 @@ abstract class EasySwooleCommand extends Command
     {
         defined('IN_PHAR') or define('IN_PHAR', (bool)Phar::running(false));
         defined('RUNNING_ROOT') or define('RUNNING_ROOT', realpath(getcwd()));
-        defined('EASYSWOOLE_ROOT') or define('EASYSWOOLE_ROOT', IN_PHAR ? Phar::running() : realpath(getcwd()));
+        defined('EASYSWOOLE_ROOT') or define('EASYSWOOLE_ROOT', ROOT_PATH . '/vendor/bin');
     }
 
     /**
