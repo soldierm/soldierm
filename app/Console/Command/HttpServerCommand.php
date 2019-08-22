@@ -32,7 +32,7 @@ class HttpServerCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $server = $this->getHttpServer(['host' => '119.23.200.233']);
+        $server = $this->getHttpServer(['host' => '0.0.0.0']);
         $server->set([
             'worker_num' => 4,
             'backlog' => 128,

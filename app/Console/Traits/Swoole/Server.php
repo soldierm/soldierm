@@ -23,7 +23,7 @@ trait Server
     public function getHttpServer(array $config = []): HttpServer
     {
         $default = [
-            'host' => '127.0.0.1',
+            'host' => '0.0.0.0',
             'port' => 9501,
             'mod' => SWOOLE_PROCESS,
             'sock_type' => SWOOLE_SOCK_TCP
@@ -51,7 +51,7 @@ trait Server
     public function getWebSocketServer(array $config = []): WebSocketServer
     {
         $default = [
-            'host' => '127.0.0.1',
+            'host' => '0.0.0.0',
             'port' => 9501,
             'mod' => SWOOLE_PROCESS,
             'sock_type' => SWOOLE_SOCK_TCP
@@ -81,7 +81,7 @@ trait Server
     public function getTcpServer(array $config = [], bool $tcp6 = false): SwooleServer
     {
         $default = [
-            'host' => '127.0.0.1',
+            'host' => '0.0.0.0',
             'port' => 9501,
             'mod' => SWOOLE_PROCESS
         ];
@@ -110,7 +110,7 @@ trait Server
     public function getUdpServer(array $config = [], bool $udp6 = false): SwooleServer
     {
         $default = [
-            'host' => '127.0.0.1',
+            'host' => '0.0.0.0',
             'port' => 9501,
             'mod' => SWOOLE_PROCESS
         ];
