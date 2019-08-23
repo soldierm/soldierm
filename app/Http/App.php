@@ -79,8 +79,11 @@ class App extends BaseApp
      */
     public function run($exit = true)
     {
+        echo 'beforeParse', PHP_EOL;
         $this->parseUri();
+        echo 'beforeCallMiddleware', PHP_EOL;
         $this->callMiddleware();
+        echo 'beforeSend', PHP_EOL;
         $this->response->send();
         if ($exit) {
             exit;
