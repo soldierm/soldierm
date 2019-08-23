@@ -79,11 +79,8 @@ class App extends BaseApp
      */
     public function run($exit = true)
     {
-        echo 'beforeParse', PHP_EOL;
         $this->parseUri();
-        echo 'beforeCallMiddleware', PHP_EOL;
         $this->callMiddleware();
-        echo 'beforeSend', PHP_EOL;
         $this->response->send();
         if ($exit) {
             exit;
@@ -122,7 +119,10 @@ class App extends BaseApp
      */
     protected function parseUri()
     {
+        echo 1, PHP_EOL;
         $routeInfo = $this->routeDispatcher->dispatch($this->request->getMethod(), $this->request->getRequestUri());
+        echo 2, PHP_EOL;
+        print_r($routeInfo);
         switch ($routeInfo[0]) {
             case Dispatcher::FOUND:
                 $this->controller = $routeInfo[1];
@@ -136,6 +136,7 @@ class App extends BaseApp
                 throw new NofFoundException();
                 break;
         }
+        echo 3, PHP_EOL;
     }
 
     /**
