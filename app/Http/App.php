@@ -125,6 +125,7 @@ class App extends BaseApp
             $this->request->getRequestUri()
         ]);
         $routeInfo = $this->routeDispatcher->dispatch($this->request->getMethod(), $this->request->getRequestUri());
+        print_r($this->request);
         echo 2, PHP_EOL;
         print_r($routeInfo);
         switch ($routeInfo[0]) {
