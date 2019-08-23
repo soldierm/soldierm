@@ -22,13 +22,6 @@ abstract class App
     protected $config;
 
     /**
-     * 单例
-     *
-     * @var App
-     */
-    protected static $app;
-
-    /**
      * AbstractApp constructor.
      * @param array $config
      * @param Container|null $container

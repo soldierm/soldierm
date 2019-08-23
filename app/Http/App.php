@@ -77,12 +77,14 @@ class App extends BaseApp
     /**
      * {@inheritDoc}
      */
-    public function run()
+    public function run($exit = true)
     {
         $this->parseUri();
         $this->callMiddleware();
         $this->response->send();
-        exit;
+        if ($exit) {
+            exit;
+        }
     }
 
     /**

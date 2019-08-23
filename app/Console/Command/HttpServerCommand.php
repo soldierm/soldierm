@@ -43,7 +43,7 @@ class HttpServerCommand extends Command
         $httpApp = new App(CONFIG_PATH);
         $server->on('request', function(Request $request, Response $response) use ($httpApp) {
 //            $response->end("<h1>hello swoole</h1>");
-            $httpApp->run();
+            $httpApp->run(false);
         });
         $server->start();
     }
