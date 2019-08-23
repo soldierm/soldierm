@@ -10,6 +10,7 @@ use Swoole\Http\Response;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Throwable;
 
 class HttpServerCommand extends Command
 {
@@ -42,8 +43,11 @@ class HttpServerCommand extends Command
         ]);
         $httpApp = new App(CONFIG_PATH);
         $server->on('request', function(Request $request, Response $response) use ($httpApp) {
-//            $response->end("<h1>hello swoole</h1>");
-            $httpApp->run(false);
+            try {
+                $httpApp->run(false);
+            } catch (Throwable $exception) {
+                echo $exception;
+            }
         });
         $server->start();
     }
