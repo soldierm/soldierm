@@ -77,14 +77,12 @@ class App extends BaseApp
     /**
      * {@inheritDoc}
      */
-    public function run($exit = true)
+    public function run()
     {
         $this->parseUri();
         $this->callMiddleware();
         $this->response->send();
-        if ($exit) {
-            exit;
-        }
+        exit;
     }
 
     /**
@@ -119,15 +117,7 @@ class App extends BaseApp
      */
     protected function parseUri()
     {
-        echo 1, PHP_EOL;
-        print_r([
-            $this->request->getMethod(),
-            $this->request->getRequestUri()
-        ]);
         $routeInfo = $this->routeDispatcher->dispatch($this->request->getMethod(), $this->request->getRequestUri());
-        print_r($this->request);
-        echo 2, PHP_EOL;
-        print_r($routeInfo);
         switch ($routeInfo[0]) {
             case Dispatcher::FOUND:
                 $this->controller = $routeInfo[1];
@@ -141,7 +131,6 @@ class App extends BaseApp
                 throw new NotFoundException();
                 break;
         }
-        echo 3, PHP_EOL;
     }
 
     /**
