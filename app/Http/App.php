@@ -117,7 +117,7 @@ class App extends BaseApp
      */
     protected function parseUri()
     {
-        $routeInfo = $this->routeDispatcher->dispatch($this->request->getMethod(), $this->request->getRequestUri());
+        $routeInfo = $this->routeDispatcher->dispatch($this->request->getMethod(), $this->request->getPathInfo());
         switch ($routeInfo[0]) {
             case Dispatcher::FOUND:
                 $this->controller = $routeInfo[1];
