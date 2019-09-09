@@ -8,7 +8,7 @@ use App\Base\Controller;
 use App\Base\Exception;
 use App\Http\Exception\JsonResponseHandle;
 use App\Http\Exception\MethodNotAllowedException;
-use App\Http\Exception\NofFoundException;
+use App\Http\Exception\NotFoundException;
 use App\Http\Exception\UnknownException;
 use App\Http\Middleware\Middleware;
 use FastRoute\Dispatcher;
@@ -113,11 +113,11 @@ class App extends BaseApp
      * 解析路由
      *
      * @throws MethodNotAllowedException
-     * @throws NofFoundException
+     * @throws NotFoundException
      */
     protected function parseUri()
     {
-        $routeInfo = $this->routeDispatcher->dispatch($this->request->getMethod(), $this->request->getRequestUri());
+        $routeInfo = $this->routeDispatcher->dispatch($this->request->getMethod(), $this->request->getPathInfo());
         switch ($routeInfo[0]) {
             case Dispatcher::FOUND:
                 $this->controller = $routeInfo[1];
@@ -128,7 +128,7 @@ class App extends BaseApp
                 break;
             case Dispatcher::NOT_FOUND:
             default:
-                throw new NofFoundException();
+                throw new NotFoundException();
                 break;
         }
     }

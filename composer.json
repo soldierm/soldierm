@@ -28,5 +28,11 @@
     "files": [
       "./app/Helper/functions.php"
     ]
+  },
+  "require-dev": {
+    "eaglewu/swoole-ide-helper": "dev-master"
+  },
+  "config": {
+    "discard-changes": true
   }
 }

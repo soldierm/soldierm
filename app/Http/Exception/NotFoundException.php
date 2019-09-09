@@ -5,7 +5,7 @@ namespace App\Http\Exception;
 use App\Base\Exception;
 use Symfony\Component\HttpFoundation\Response;
 
-class NofFoundException extends Exception
+class NotFoundException extends Exception
 {
     /**
      * 默认模板

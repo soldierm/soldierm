@@ -14,7 +14,8 @@ use App\Console\App;
 
     Container::instance([
         'version' => '0.0.1',
-        'author' => 'zhouyang'
+        'author' => 'zhouyang',
+        'debug' => false
     ]);
 
     $app = new App(CONFIG_PATH);

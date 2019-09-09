@@ -1,13 +1,13 @@
 <?php
 
+use App\Console\Command\HttpServerCommand;
 use Doctrine\Common\Cache\PredisCache;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Setup;
 use Predis\Client;
+use Symfony\Component\Console\Application;
 use Symfony\Component\HttpFoundation\Request;
 use function FastRoute\simpleDispatcher;
-use Symfony\Component\Console\Application;
-use App\Console\Command\TestCommand;
 
 return [
     'http_service' => function () {
@@ -23,6 +23,6 @@ return [
     },
     'console_bootstrap' => function () {
         $this->symfonyApplication = new Application('Soldierm', container()->version);
-        $this->addCommand(new TestCommand());
+        $this->addCommand(new HttpServerCommand());
     }
 ];
