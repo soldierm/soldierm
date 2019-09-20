@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Middleware;
+namespace App\Api\Middleware;
 
+use App\Base\Middleware;
 use Closure;
 use Exception;
 use Symfony\Component\HttpFoundation\Request;

@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Http\Controller;
+namespace App\Api\Controller;
 
-use App\Base\Controller;
 use App\Http\Model\User as UserModel;
 use App\Http\Entity\User as UserEntity;
 

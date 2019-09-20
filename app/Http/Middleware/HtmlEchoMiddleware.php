@@ -2,16 +2,16 @@
 
 namespace App\Http\Middleware;
 
-use App\Http\Exception\AuthException;
+use App\Base\Middleware;
 use Closure;
 use Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class AuthMiddleware implements Middleware
+class HtmlEchoMiddleware implements Middleware
 {
     /**
-     * 验证中间件
+     * 相应Json化
      *
      * @param Request $request
      * @param Closure $next
@@ -20,10 +20,12 @@ class AuthMiddleware implements Middleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (container()->author !== 'zhouyang') {
-            throw new AuthException("NTMLGB");
-        }
+        /** @var Response $response */
+        $response = $next($request);
 
-        return $next($request);
+        $response->headers->set('Content-type', 'text/html');
+        $response->setContent(app()->getContainer()->originContent);
+
+        return $response;
     }
 }

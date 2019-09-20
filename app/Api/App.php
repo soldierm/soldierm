@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http;
+namespace App\Api;
 
 use App\Base\App as BaseApp;
 use App\Base\Controller;
 use App\Base\Exception;
 use App\Base\Middleware;
+use App\Http\Exception\JsonResponseHandle;
 use App\Http\Exception\MethodNotAllowedException;
 use App\Http\Exception\NotFoundException;
 use App\Http\Exception\UnknownException;
-use App\Http\Render\View;
 use FastRoute\Dispatcher;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -62,13 +62,6 @@ class App extends BaseApp
     protected $controllerArgs;
 
     /**
-     * 文件渲染引擎
-     *
-     * @var View
-     */
-    protected $view;
-
-    /**
      * {@inheritDoc}
      */
     public function init()
@@ -77,8 +70,8 @@ class App extends BaseApp
 
         $this->registerErrorHandler();
 
-        config('http_service')->call($this);
-        config('http_bootstrap')->call($this);
+        config('api_service')->call($this);
+        config('api_bootstrap')->call($this);
     }
 
     /**
@@ -108,7 +101,11 @@ class App extends BaseApp
         });
 
         $whoops = new Run();
-        $whoops->prependHandler(new PrettyPageHandler());
+        if ($this->isDevMod()) {
+            $whoops->prependHandler(new PrettyPageHandler());
+        } else {
+            $whoops->prependHandler(new JsonResponseHandle());
+        }
         $whoops->register();
     }
 
@@ -185,8 +182,8 @@ class App extends BaseApp
     protected function registerMiddleware()
     {
         $middleware = array_filter(array_map(function ($alias) {
-            if (isset($this->config->get('http_middleware')[$alias])) {
-                $middleware = $this->config->get('http_middleware')[$alias];
+            if (isset($this->config->get('api_middleware')[$alias])) {
+                $middleware = $this->config->get('api_middleware')[$alias];
                 return new $middleware();
             }
             return null;

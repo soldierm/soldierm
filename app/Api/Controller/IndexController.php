@@ -1,22 +1,20 @@
 <?php
 
-namespace App\Http\Controller;
+namespace App\Api\Controller;
 
 class IndexController extends Controller
 {
     /**
-     * 首页
+     * 首页控制器
      *
-     * @return false|string
-     * @throws \App\Http\Exception\ViewException
-     * @throws \Throwable
+     * @return mixed
      */
     public function __invoke()
     {
-        return $this->render('index/index', [
+        return [
             'version' => $this->container['version'],
             'author' => $this->container['author'],
             'datetime' => date('Y-m-d H:i:s')
-        ]);
+        ];
     }
 }
