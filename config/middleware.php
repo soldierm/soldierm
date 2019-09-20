@@ -1,8 +1,11 @@
 <?php
 
 return [
-    'middleware' => [
-        'auth' => 'App\\Http\\Middleware\\AuthMiddleware',
-        'echo' => 'App\\Http\\Middleware\\JsonEchoMiddleware'
+    'api_middleware' => [
+        'auth' => 'App\\Api\\Middleware\\AuthMiddleware',
+        'echo' => 'App\\Api\\Middleware\\JsonEchoMiddleware'
+    ],
+    'http_middleware' => [
+        'echo' => 'App\\Http\\Middleware\\HtmlEchoMiddleware'
     ]
 ];

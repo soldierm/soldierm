@@ -1,10 +1,14 @@
 <?php
 
-use App\Http\Controller;
+use App\Http\Controller as HttpController;
+use App\Api\Controller as ApiController;
 
 return [
-    'route' => function (FastRoute\RouteCollector $r) {
-        $r->get('/', new Controller\IndexController());
-        $r->get('/users', new Controller\ListUserController());
-    }
+    'api_route' => function (FastRoute\RouteCollector $r) {
+        $r->get('/', new ApiController\IndexController());
+        $r->get('/users', new ApiController\ListUserController());
+    },
+    'http_route' => function (FastRoute\RouteCollector $r) {
+        $r->get('/', new HttpController\IndexController());
+    },
 ];

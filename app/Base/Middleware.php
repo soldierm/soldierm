@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Middleware;
+namespace App\Base;
 
 use Closure;
 use Symfony\Component\HttpFoundation\Request;
