@@ -40,14 +40,7 @@ class View
         try {
             require $file;
             return ob_get_clean();
-        } catch (\Exception $e) {
-            while (ob_get_level() > $_obInitialLevel_) {
-                if (!@ob_end_clean()) {
-                    ob_clean();
-                }
-            }
-            throw $e;
-        } catch (Throwable $e) {
+        }  catch (Throwable $e) {
             while (ob_get_level() > $_obInitialLevel_) {
                 if (!@ob_end_clean()) {
                     ob_clean();
