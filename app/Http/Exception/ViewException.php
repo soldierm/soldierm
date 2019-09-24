@@ -2,8 +2,6 @@
 
 namespace App\Http\Exception;
 
-use App\Base\Exception;
-
 class ViewException extends Exception
 {
     /**

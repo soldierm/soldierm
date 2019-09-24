@@ -4,7 +4,7 @@ namespace App\Api;
 
 use App\Base\App as BaseApp;
 use App\Base\Controller;
-use App\Base\Exception;
+use App\Api\Exception\Exception;
 use App\Base\Middleware;
 use App\Api\Exception\JsonResponseHandle;
 use App\Api\Exception\MethodNotAllowedException;

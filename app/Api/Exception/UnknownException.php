@@ -2,8 +2,6 @@
 
 namespace App\Api\Exception;
 
-use App\Base\Exception;
-
 class UnknownException extends Exception
 {
     /**

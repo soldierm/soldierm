@@ -2,7 +2,6 @@
 
 namespace App\Http\Exception;
 
-use App\Base\Exception;
 use Symfony\Component\HttpFoundation\Response;
 
 class MethodNotAllowedException extends Exception

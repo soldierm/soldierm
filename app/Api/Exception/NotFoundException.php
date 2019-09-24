@@ -2,7 +2,6 @@
 
 namespace App\Api\Exception;
 
-use App\Base\Exception;
 use Symfony\Component\HttpFoundation\Response;
 
 class NotFoundException extends Exception

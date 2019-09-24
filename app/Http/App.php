@@ -4,7 +4,7 @@ namespace App\Http;
 
 use App\Base\App as BaseApp;
 use App\Base\Controller;
-use App\Base\Exception;
+use App\Http\Exception\Exception;
 use App\Base\Middleware;
 use App\Http\Exception\MethodNotAllowedException;
 use App\Http\Exception\NotFoundException;

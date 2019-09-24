@@ -22,7 +22,7 @@ class AuthMiddleware implements Middleware
     public function handle(Request $request, Closure $next): Response
     {
         if (container()->author !== 'zhouyang') {
-            throw new AuthException("NTMLGB");
+            throw new AuthException("Only for zhouyang");
         }
 
         return $next($request);

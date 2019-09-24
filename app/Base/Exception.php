@@ -3,9 +3,8 @@
 namespace App\Base;
 
 use Exception as PHPException;
-use JsonSerializable;
 
-abstract class Exception extends PHPException implements JsonSerializable
+abstract class Exception extends PHPException
 {
     /**
      * 详细错误信息
@@ -24,16 +23,6 @@ abstract class Exception extends PHPException implements JsonSerializable
     }
 
     /**
-     * {@inheritDoc}
-     */
-    public function jsonSerialize()
-    {
-        container()->response->headers->set('Content-type', 'application/json;charset=UTF-8');
-
-        return http_format($this->getCode(), $this->getMessage(), $this->getInfo());
-    }
-
-    /**
      * 获取详细错误信息
      *
      * @return mixed
@@ -41,15 +30,5 @@ abstract class Exception extends PHPException implements JsonSerializable
     public function getInfo()
     {
         return $this->info;
-    }
-
-    /**
-     * 异常抛出
-     *
-     * @return false|string
-     */
-    public function __toString()
-    {
-        return json_encode($this->jsonSerialize());
     }
 }
