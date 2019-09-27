@@ -37,4 +37,15 @@ abstract class Controller extends BaseController
     {
         return $this->view->render($file, $params);
     }
+
+    /**
+     * 页面重定向
+     *
+     * @param string $url
+     */
+    protected function redirect($url)
+    {
+        header("Location: /{$url}");
+        exit;
+    }
 }

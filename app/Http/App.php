@@ -8,6 +8,7 @@ use App\Http\Exception\Exception;
 use App\Base\Middleware;
 use App\Http\Exception\MethodNotAllowedException;
 use App\Http\Exception\NotFoundException;
+use App\Http\Exception\SbAdminErrorHandler;
 use App\Http\Exception\UnknownException;
 use App\Http\Render\View;
 use FastRoute\Dispatcher;
@@ -108,7 +109,7 @@ class App extends BaseApp
         });
 
         $whoops = new Run();
-        $whoops->prependHandler(new PrettyPageHandler());
+        $whoops->prependHandler($this->isDevMod() ? new PrettyPageHandler() : new SbAdminErrorHandler());
         $whoops->register();
     }
 

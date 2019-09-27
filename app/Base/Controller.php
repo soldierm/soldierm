@@ -67,4 +67,74 @@ abstract class Controller
     {
         return $this->middleware;
     }
+
+    /**
+     * 是否是Get请求
+     *
+     * @return bool
+     */
+    protected function isGet()
+    {
+        return $this->request->getMethod() === 'GET';
+    }
+
+    /**
+     * 是否是Post请求
+     *
+     * @return bool
+     */
+    protected function isPost()
+    {
+        return $this->request->getMethod() === 'POST';
+    }
+
+    /**
+     * 是否是Put请求
+     *
+     * @return bool
+     */
+    protected function isPut()
+    {
+        return $this->request->getMethod() === 'PUT';
+    }
+
+    /**
+     * 是否是Patch请求
+     *
+     * @return bool
+     */
+    protected function isPatch()
+    {
+        return $this->request->getMethod() === 'PATCH';
+    }
+
+    /**
+     * 是否是Delete请求
+     *
+     * @return bool
+     */
+    protected function isDelete()
+    {
+        return $this->request->getMethod() === 'DELETE';
+    }
+
+    /**
+     * 是否是Head请求
+     *
+     * @return bool
+     */
+    protected function isHead()
+    {
+        return $this->request->getMethod() === 'HEAD';
+    }
+
+    /**
+     * 是否是Delete请求
+     *
+     * @return bool
+     */
+    protected function isOptions()
+    {
+        return $this->request->getMethod() === 'DELETE';
+    }
 }

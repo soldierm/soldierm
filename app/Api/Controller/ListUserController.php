@@ -2,8 +2,8 @@
 
 namespace App\Api\Controller;
 
-use App\Http\Model\User as UserModel;
-use App\Http\Entity\User as UserEntity;
+use App\Api\Model\User as UserModel;
+use App\Api\Entity\User as UserEntity;
 
 class ListUserController extends Controller
 {

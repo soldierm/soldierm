@@ -12,14 +12,6 @@ use Doctrine\ORM\Mapping as ORM;
 class User extends Entity
 {
     /**
-     * 性别
-     *
-     * @var int
-     */
-    const GIRL = 0;
-    const BOY = 1;
-
-    /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
@@ -29,12 +21,22 @@ class User extends Entity
     /**
      * @ORM\Column(type="string")
      */
-    private $name;
+    private $username;
 
     /**
      * @ORM\Column(type="string")
      */
-    private $gender;
+    private $password_hash;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $created_at;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $updated_at;
 
     /**
      * @return mixed
@@ -47,33 +49,49 @@ class User extends Entity
     /**
      * @return mixed
      */
-    public function getName()
+    public function getUsername()
     {
-        return $this->name;
+        return $this->username;
     }
 
     /**
-     * @param mixed $name
+     * @param mixed $username
      */
-    public function setName($name): void
+    public function setUsername($username): void
     {
-        $this->name = $name;
+        $this->username = $username;
     }
 
     /**
      * @return mixed
      */
-    public function getGender()
+    public function getCreatedAt()
     {
-        return $this->gender;
+        return $this->created_at;
     }
 
     /**
-     * @param mixed $gender
+     * @param mixed $created_at
      */
-    public function setGender($gender): void
+    public function setCreatedAt($created_at): void
     {
-        $this->gender = $gender;
+        $this->created_at = $created_at;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updated_at;
+    }
+
+    /**
+     * @param mixed $updated_at
+     */
+    public function setUpdatedAt($updated_at): void
+    {
+        $this->updated_at = $updated_at;
     }
 
     /**
@@ -83,10 +101,9 @@ class User extends Entity
     {
         return [
             'id' => $this->getId(),
-            'name' => $this->getName(),
-            'gender' => function (User $user) {
-                return $user->getGender() === self::BOY ? 'boy' : 'girl';
-            }
+            'username' => $this->getUsername(),
+            'createdAt' => date('Y-m-d H:i:s', $this->getCreatedAt()),
+            'updatedAt' => date('Y-m-d H:i:s', $this->getUpdatedAt()),
         ];
     }
 }

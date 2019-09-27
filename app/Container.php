@@ -11,6 +11,7 @@ use Pimple\Container as PimpleContainer;
  * @property \Symfony\Component\HttpFoundation\Request $request 只在fastcgi模式下有效
  * @property \Symfony\Component\HttpFoundation\Response $response 只在fastcgi模式下有效
  * @property \Doctrine\Common\Cache\Cache $cache 缓存
+ * @property \App\Base\User $user 用户信息组件
  * @property bool $debug
  * @property string $version
  * @property string $author

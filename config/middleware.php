@@ -6,6 +6,7 @@ return [
         'echo' => 'App\\Api\\Middleware\\JsonEchoMiddleware'
     ],
     'http_middleware' => [
-        'echo' => 'App\\Http\\Middleware\\HtmlEchoMiddleware'
+        'echo' => 'App\\Http\\Middleware\\HtmlEchoMiddleware',
+        'auth' => 'App\\Http\\Middleware\\AuthMiddleware'
     ]
 ];
