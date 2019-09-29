@@ -4,6 +4,7 @@ namespace App\Http;
 
 use App\Base\App as BaseApp;
 use App\Base\Controller;
+use App\Http\Exception\AuthException;
 use App\Http\Exception\Exception;
 use App\Base\Middleware;
 use App\Http\Exception\MethodNotAllowedException;
@@ -203,6 +204,7 @@ class App extends BaseApp
      */
     protected function isDevMod()
     {
+        return false;
         return $this->container['debug'] === true;
     }
 }

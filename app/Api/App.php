@@ -12,7 +12,7 @@ use App\Api\Exception\NotFoundException;
 use App\Api\Exception\UnknownException;
 use FastRoute\Dispatcher;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Throwable;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run;
@@ -29,7 +29,7 @@ class App extends BaseApp
     /**
      * 响应
      *
-     * @var Response
+     * @var JsonResponse
      */
     protected $response;
 
@@ -94,9 +94,9 @@ class App extends BaseApp
     {
         set_exception_handler(function (Throwable $exception) {
             if ($exception instanceof Exception) {
-                $this->response->setContent($exception);
+                $this->response->setData($exception);
             } else {
-                $this->response->setContent(new UnknownException($exception->getMessage()));
+                $this->response->setData(new UnknownException($exception->getMessage()));
             }
         });
 
@@ -155,7 +155,7 @@ class App extends BaseApp
     {
         $firstStack = function ($request) {
             return (function ($request) {
-                $this->container['response'] = $this->response = (new Response())->prepare($request);
+                $this->container['response'] = $this->response = (new JsonResponse())->prepare($request);
                 $this->container['originContent'] = call_user_func_array($this->controller, $this->controllerArgs);
                 return $this->response;
             })($request);
