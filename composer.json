@@ -1,7 +1,7 @@
 {
   "name": "soldierm/soldierm",
   "description": "soldierm framework",
-  "minimum-stability": "dev",
+  "minimum-stability": "stable",
   "license": "MIT",
   "authors": [
     {
