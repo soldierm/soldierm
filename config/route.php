@@ -6,17 +6,5 @@ use App\Api\Controller as ApiController;
 return [
     'api_route' => function (FastRoute\RouteCollector $r) {
         $r->get('/', new ApiController\IndexController());
-        $r->get('/users', new ApiController\ListUserController());
-    },
-    'http_route' => function (FastRoute\RouteCollector $r) {
-        /******************* 首页 **********************/
-        $r->get('/', new HttpController\IndexController());
-        $r->get('/index', new HttpController\IndexController());
-
-        /******************* 登录 **********************/
-        $login = new HttpController\LoginController();
-        $r->get('/login', $login);
-        $r->post('/do-login', $login);
-        $r->get('/logout', new HttpController\LogoutController());
-    },
+    }
 ];

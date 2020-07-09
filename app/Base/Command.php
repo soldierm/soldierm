@@ -10,6 +10,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 class Command extends SymfonyCommand
 {
     /**
+     * Exit
+     *
+     * @var int
+     */
+    public const SUCCESS = 0;
+    public const FAILURE = 1;
+
+    /**
      * 输入
      *
      * @var InputInterface
